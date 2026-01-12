@@ -1,0 +1,161 @@
+{
+  "name": "rag-index",
+  "fields": [
+    {
+      "name": "chunk_id",
+      "type": "Edm.String",
+      "key": true,
+      "searchable": false,
+      "filterable": false,
+      "sortable": false,
+      "facetable": false
+    },
+    {
+      "name": "content",
+      "type": "Edm.String",
+      "searchable": true,
+      "filterable": false,
+      "sortable": false,
+      "facetable": false,
+      "analyzer": "standard.lucene"
+    },
+    {
+      "name": "content_vector",
+      "type": "Collection(Edm.Single)",
+      "searchable": true,
+      "filterable": false,
+      "sortable": false,
+      "facetable": false,
+      "dimensions": 1536,
+      "vectorSearchProfile": "vector-profile"
+    },
+    {
+      "name": "document_id",
+      "type": "Edm.String",
+      "searchable": false,
+      "filterable": true,
+      "sortable": true,
+      "facetable": true
+    },
+    {
+      "name": "filename",
+      "type": "Edm.String",
+      "searchable": true,
+      "filterable": true,
+      "sortable": true,
+      "facetable": true
+    },
+    {
+      "name": "chunk_index",
+      "type": "Edm.Int32",
+      "searchable": false,
+      "filterable": true,
+      "sortable": true,
+      "facetable": false
+    },
+    {
+      "name": "total_chunks",
+      "type": "Edm.Int32",
+      "searchable": false,
+      "filterable": false,
+      "sortable": false,
+      "facetable": false
+    },
+    {
+      "name": "entities_people",
+      "type": "Collection(Edm.String)",
+      "searchable": true,
+      "filterable": true,
+      "sortable": false,
+      "facetable": true
+    },
+    {
+      "name": "entities_organizations",
+      "type": "Collection(Edm.String)",
+      "searchable": true,
+      "filterable": true,
+      "sortable": false,
+      "facetable": true
+    },
+    {
+      "name": "entities_locations",
+      "type": "Collection(Edm.String)",
+      "searchable": true,
+      "filterable": true,
+      "sortable": false,
+      "facetable": true
+    },
+    {
+      "name": "entities_topics",
+      "type": "Collection(Edm.String)",
+      "searchable": true,
+      "filterable": true,
+      "sortable": false,
+      "facetable": true
+    },
+    {
+      "name": "entities_technical_terms",
+      "type": "Collection(Edm.String)",
+      "searchable": true,
+      "filterable": true,
+      "sortable": false,
+      "facetable": true
+    },
+    {
+      "name": "entity_summary",
+      "type": "Edm.String",
+      "searchable": true,
+      "filterable": false,
+      "sortable": false,
+      "facetable": false
+    }
+  ],
+  "vectorSearch": {
+    "algorithms": [
+      {
+        "name": "vector-algorithm",
+        "kind": "hnsw",
+        "hnswParameters": {
+          "metric": "cosine",
+          "m": 4,
+          "efConstruction": 400,
+          "efSearch": 500
+        }
+      }
+    ],
+    "profiles": [
+      {
+        "name": "vector-profile",
+        "algorithm": "vector-algorithm"
+      }
+    ]
+  },
+  "semantic": {
+    "configurations": [
+      {
+        "name": "default",
+        "prioritizedFields": {
+          "titleField": {
+            "fieldName": "filename"
+          },
+          "contentFields": [
+            {
+              "fieldName": "content"
+            },
+            {
+              "fieldName": "entity_summary"
+            }
+          ],
+          "keywordsFields": [
+            {
+              "fieldName": "entities_topics"
+            },
+            {
+              "fieldName": "entities_technical_terms"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
