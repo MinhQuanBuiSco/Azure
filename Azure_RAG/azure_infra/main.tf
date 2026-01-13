@@ -235,9 +235,9 @@ module "static_web_app" {
   location            = var.static_web_app_location
   sku_tier            = var.static_web_app_sku
 
-  app_settings = {
-    VITE_API_BASE_URL = module.container_apps_env.backend_fqdn
-  }
+  # Note: Frontend env vars are set at build-time via .env file in deploy.sh
+  # Static Web Apps don't support runtime environment variables
+  app_settings = {}
 
   tags = var.tags
 }

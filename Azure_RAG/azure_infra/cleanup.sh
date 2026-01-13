@@ -40,7 +40,24 @@ fi
 echo ""
 echo "Step 1: Destroying all Azure resources..."
 echo "This will take 5-10 minutes..."
-terraform destroy -auto-approve
+
+# Check if terraform state exists
+if [ -f "terraform.tfstate" ] && [ -s "terraform.tfstate" ]; then
+    echo "  Using Terraform to destroy resources..."
+    terraform destroy -auto-approve
+else
+    echo "  ⚠️  No Terraform state found, using Azure CLI..."
+    RG_NAME="rg-rag-app-prod"
+
+    # Check if resource group exists
+    if az group show --name $RG_NAME &>/dev/null; then
+        echo "  Deleting resource group: $RG_NAME"
+        az group delete --name $RG_NAME --yes --no-wait
+        echo "  ✓ Deletion initiated (running in background)"
+    else
+        echo "  ℹ️  Resource group not found, nothing to delete"
+    fi
+fi
 
 echo ""
 echo "Step 2: Cleaning up local files..."

@@ -25,6 +25,10 @@ async def upload_pdf(
     Returns:
         Upload response with document ID and blob URL
     """
+    logger.info(f"=== UPLOAD REQUEST RECEIVED ===")
+    logger.info(f"Filename: {file.filename if file else 'NO FILE'}")
+    logger.info(f"Content-Type: {file.content_type if file else 'NO CONTENT TYPE'}")
+
     # Validate file type
     if not file.filename.lower().endswith('.pdf'):
         raise HTTPException(status_code=400, detail="Only PDF files are allowed")

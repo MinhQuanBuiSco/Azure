@@ -9,11 +9,11 @@ output "backend_id" {
 }
 
 output "backend_fqdn" {
-  description = "Backend container app FQDN"
-  value       = azurerm_container_app.backend.latest_revision_fqdn
+  description = "Backend container app FQDN (stable, not revision-specific)"
+  value       = "${azurerm_container_app.backend.name}.${azurerm_container_app_environment.this.default_domain}"
 }
 
 output "backend_url" {
-  description = "Backend container app URL"
-  value       = "https://${azurerm_container_app.backend.latest_revision_fqdn}"
+  description = "Backend container app URL (stable)"
+  value       = "https://${azurerm_container_app.backend.name}.${azurerm_container_app_environment.this.default_domain}"
 }

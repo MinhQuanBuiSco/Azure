@@ -144,7 +144,7 @@ variable "openai_embedding_model_version" {
 variable "openai_embedding_capacity" {
   description = "Embedding model TPM capacity (in thousands)"
   type        = number
-  default     = 120
+  default     = 100
 }
 
 # Container Registry

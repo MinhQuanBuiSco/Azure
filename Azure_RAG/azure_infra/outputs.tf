@@ -100,6 +100,11 @@ output "acr_admin_password" {
 }
 
 # Container Apps
+output "backend_app_name" {
+  description = "Backend container app name"
+  value       = var.backend_app_name
+}
+
 output "backend_url" {
   description = "Backend container app URL"
   value       = "https://${module.container_apps_env.backend_fqdn}"

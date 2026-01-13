@@ -51,7 +51,9 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Configure CORS
+# Configure CORS - MUST be added FIRST (executes LAST in middleware stack)
+logger.info(f"Configuring CORS with origins: {settings.cors_origins}")
+logger.info(f"FRONTEND_URL from env: {settings.frontend_url}")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
@@ -59,6 +61,19 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Add request logging middleware - Added AFTER CORS (executes BEFORE CORS in middleware stack)
+@app.middleware("http")
+async def log_requests(request, call_next):
+    logger.info(f">>> Request: {request.method} {request.url.path}")
+    logger.info(f">>> Origin: {request.headers.get('origin', 'NO ORIGIN')}")
+    try:
+        response = await call_next(request)
+        logger.info(f"<<< Response: {response.status_code}")
+        return response
+    except Exception as e:
+        logger.error(f"!!! Request failed: {str(e)}")
+        raise
 
 # Include routers
 app.include_router(upload.router, prefix="/api")
