@@ -1,0 +1,43 @@
+# Production environment configuration
+# Copy this file to terraform.tfvars and fill in the values
+
+# Azure region
+location = "eastus"
+
+# Resource naming
+resource_group_name = "fraud-detection-prod-rg"
+project_prefix      = "frauddet"
+aks_cluster_name    = "fraud-detection-aks-prod"
+
+# Kubernetes version
+kubernetes_version = "1.28"
+
+# ACR name (must be globally unique, alphanumeric only, 5-50 characters)
+acr_name = "frauddetectionacrprod"
+
+# PostgreSQL
+postgres_name           = "fraud-detection-postgres-prod"
+postgres_admin_username = "fraudadmin"
+postgres_admin_password = "CHANGE_ME_STRONG_PASSWORD_HERE"
+
+# Redis
+redis_name = "fraud-detection-redis-prod"
+
+# Network security
+enable_private_endpoints   = true
+private_endpoint_subnet_id = "" # Set if using private endpoints
+
+# Key Vault access
+allowed_ip_ranges = [
+  # Add your office/VPN IP ranges
+  # "203.0.113.0/24",
+]
+
+# Azure AI Foundry (for Claude)
+azure_ai_endpoint   = "https://your-resource.services.ai.azure.com/models"
+azure_ai_key        = ""  # Store in Azure Key Vault
+azure_ai_model_name = "claude-3-5-sonnet"
+
+# Azure Anomaly Detector
+azure_anomaly_endpoint = ""
+azure_anomaly_key      = ""

@@ -1,0 +1,8 @@
+apiVersion: v2
+name: fraud-detection-backend
+description: Fraud Detection Backend API (FastAPI)
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+maintainers:
+  - name: Fraud Detection Team

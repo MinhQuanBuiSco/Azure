@@ -1,0 +1,77 @@
+# Default values for fraud-detection-frontend
+
+replicaCount: 2
+
+image:
+  repository: frauddetectionacr.azurecr.io/fraud-detection-frontend
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: fraud-detection.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: fraud-detection-frontend-tls
+      hosts:
+        - fraud-detection.example.com
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+env:
+  - name: VITE_API_URL
+    value: "https://api.fraud-detection.example.com"
+  - name: VITE_WS_URL
+    value: "wss://api.fraud-detection.example.com/api/v1/ws/transactions"
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: 80
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: 80
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -1,0 +1,68 @@
+[project]
+name = "fraud-detection-backend"
+version = "0.1.0"
+description = "Enterprise-grade Fraud Detection System Backend API"
+authors = [
+    { name = "MinhQuanBuiSco", email = "quanbm2710@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    # FastAPI and Web Framework
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "python-multipart>=0.0.9",
+    "websockets>=13.0",
+
+    # Database
+    "sqlalchemy>=2.0.35",
+    "asyncpg>=0.30.0",
+    "alembic>=1.13.0",
+    "psycopg2-binary>=2.9.9",
+
+    # Redis
+    "redis>=5.1.0",
+    "hiredis>=3.0.0",
+
+    # Azure SDK
+    "azure-cosmos>=4.7.0",
+    "azure-eventhub>=5.12.0",
+    "azure-storage-blob>=12.23.0",
+    "azure-identity>=1.19.0",
+    "azure-ai-anomalydetector>=3.0.0b6",
+
+    # AI/ML
+    "azure-ai-inference>=1.0.0b6",
+    "scikit-learn>=1.5.0",
+    "pandas>=2.2.0",
+    "numpy>=2.0.0",
+
+    # Validation and Serialization
+    "pydantic>=2.10.0",
+    "pydantic-settings>=2.6.0",
+
+    # Utilities
+    "python-dotenv>=1.0.0",
+    "python-json-logger>=2.0.7",
+    "faker>=33.0.0",
+    "httpx>=0.27.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-cov>=6.0.0",
+    "black>=24.10.0",
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+]
+
+[project.scripts]
+fraud-api = "backend.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/backend"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
