@@ -75,3 +75,4 @@ data/
 .cache/
 tmp/
 temp/
+.playwright-mcp/
