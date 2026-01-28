@@ -1,0 +1,670 @@
+@import "tailwindcss";
+
+/* ============================================
+   MIDNIGHT AURORA - Travel Planner Design System
+   A clean, modern dark theme inspired by shadcn/ui
+   Using HSL colors for better browser compatibility
+   ============================================ */
+
+/* CSS Variables - HSL-based Design Tokens */
+:root {
+  /* Backgrounds */
+  --background: 222 47% 6%;
+  --card: 222 47% 11%;
+  --card-hover: 222 47% 14%;
+
+  /* Borders */
+  --border: 215 20% 20%;
+  --border-hover: 215 20% 30%;
+
+  /* Text */
+  --foreground: 210 40% 98%;
+  --foreground-muted: 215 20% 65%;
+  --foreground-subtle: 215 15% 45%;
+
+  /* Accent Colors */
+  --accent-cyan: 190 95% 50%;
+  --accent-violet: 262 83% 65%;
+  --accent-emerald: 160 84% 45%;
+  --accent-amber: 38 92% 55%;
+  --accent-rose: 350 89% 65%;
+
+  /* Functional */
+  --ring: 215 20% 40%;
+  --radius: 0.75rem;
+
+  /* Container */
+  --container-padding: 1.5rem;
+}
+
+/* Tailwind v4 Theme Configuration */
+@theme inline {
+  /* Colors mapped from CSS variables */
+  --color-background: hsl(var(--background));
+  --color-card: hsl(var(--card));
+  --color-card-hover: hsl(var(--card-hover));
+  --color-border: hsl(var(--border));
+  --color-border-hover: hsl(var(--border-hover));
+  --color-foreground: hsl(var(--foreground));
+  --color-muted: hsl(var(--foreground-muted));
+  --color-subtle: hsl(var(--foreground-subtle));
+  --color-accent: hsl(var(--accent-cyan));
+  --color-accent-violet: hsl(var(--accent-violet));
+  --color-accent-emerald: hsl(var(--accent-emerald));
+  --color-accent-amber: hsl(var(--accent-amber));
+  --color-accent-rose: hsl(var(--accent-rose));
+
+  /* Radius */
+  --radius-lg: var(--radius);
+}
+
+/* ============================================
+   BASE STYLES - CRITICAL SCROLL FIX
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* CRITICAL: Fix scrolling */
+html {
+  height: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: 'DM Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ============================================
+   BACKGROUND - Simple gradient, no animations
+   ============================================ */
+
+.app-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(135deg, hsl(222 47% 6%) 0%, hsl(225 50% 8%) 50%, hsl(222 47% 6%) 100%);
+}
+
+.app-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, hsl(190 95% 50% / 0.06), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 50%, hsl(262 83% 65% / 0.04), transparent),
+    radial-gradient(ellipse 60% 40% at 0% 100%, hsl(350 89% 65% / 0.03), transparent);
+  pointer-events: none;
+}
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+
+.page-container {
+  width: 100%;
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.content-container {
+  width: 100%;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================
+   GLASS MORPHISM COMPONENTS
+   ============================================ */
+
+.glass {
+  background: hsl(var(--card) / 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+}
+
+.glass-card {
+  background: hsl(222 40% 14%);
+  border: 1px solid hsl(215 35% 35%);
+  border-radius: 1rem;
+  box-shadow:
+    0 8px 32px hsl(0 0% 0% / 0.5),
+    0 2px 8px hsl(0 0% 0% / 0.3),
+    inset 0 1px 0 hsl(215 30% 40% / 0.5);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.glass-card:hover {
+  border-color: hsl(215 35% 45%);
+  transform: translateY(-2px);
+}
+
+/* Accent border variants for visual distinction */
+.glass-card-cyan {
+  border-left: 3px solid hsl(var(--accent-cyan));
+}
+
+.glass-card-violet {
+  border-left: 3px solid hsl(var(--accent-violet));
+}
+
+.glass-card-amber {
+  border-left: 3px solid hsl(var(--accent-amber));
+}
+
+.glass-card-emerald {
+  border-left: 3px solid hsl(var(--accent-emerald));
+}
+
+.glass-subtle {
+  background: hsl(var(--card) / 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid hsl(var(--border) / 0.5);
+  border-radius: var(--radius);
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+.text-gradient {
+  background: linear-gradient(135deg, hsl(var(--accent-cyan)) 0%, hsl(var(--accent-violet)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: hsl(var(--background));
+  background: linear-gradient(135deg, hsl(var(--accent-cyan)) 0%, hsl(var(--accent-violet)) 100%);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 20px hsl(var(--accent-cyan) / 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px hsl(var(--accent-cyan) / 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: hsl(var(--foreground));
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: hsl(var(--card-hover));
+  border-color: hsl(var(--border-hover));
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: hsl(var(--foreground-muted));
+  background: transparent;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.btn-ghost:hover {
+  color: hsl(var(--foreground));
+  background: hsl(var(--card));
+}
+
+/* ============================================
+   FORM INPUTS
+   ============================================ */
+
+.input-field {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 0.9375rem;
+  color: hsl(var(--foreground));
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-field::placeholder {
+  color: hsl(var(--foreground-subtle));
+}
+
+.input-field:hover {
+  border-color: hsl(var(--border-hover));
+}
+
+.input-field:focus {
+  border-color: hsl(var(--accent-cyan));
+  box-shadow: 0 0 0 3px hsl(var(--accent-cyan) / 0.15);
+}
+
+/* Date input custom styling */
+.input-field[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.input-field[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* ============================================
+   FEATURE CARDS GRID
+   ============================================ */
+
+.features-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(1, 1fr);
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.feature-card {
+  padding: 1.5rem;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  border-color: hsl(var(--border-hover));
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px hsl(0 0% 0% / 0.2);
+}
+
+.feature-icon {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(var(--radius) - 0.25rem);
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.1);
+}
+
+/* Icon gradient backgrounds */
+.icon-cyan { background: linear-gradient(135deg, hsl(var(--accent-cyan)), hsl(195 90% 45%)); }
+.icon-violet { background: linear-gradient(135deg, hsl(var(--accent-violet)), hsl(270 80% 60%)); }
+.icon-amber { background: linear-gradient(135deg, hsl(var(--accent-amber)), hsl(30 90% 50%)); }
+.icon-emerald { background: linear-gradient(135deg, hsl(var(--accent-emerald)), hsl(150 75% 40%)); }
+.icon-rose { background: linear-gradient(135deg, hsl(var(--accent-rose)), hsl(340 85% 55%)); }
+.icon-lime { background: linear-gradient(135deg, hsl(80 80% 55%), hsl(90 75% 45%)); }
+
+/* ============================================
+   SELECTION BUTTONS (Travel Style, Interests)
+   ============================================ */
+
+.selection-btn {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--foreground-muted));
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: capitalize;
+}
+
+.selection-btn:hover {
+  color: hsl(var(--foreground));
+  background: hsl(var(--card-hover));
+  border-color: hsl(var(--border-hover));
+}
+
+.selection-btn.active {
+  color: hsl(var(--background));
+  background: hsl(var(--accent-cyan));
+  border-color: hsl(var(--accent-cyan));
+  box-shadow: 0 0 20px hsl(var(--accent-cyan) / 0.3);
+}
+
+.selection-btn-pill {
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: hsl(var(--foreground-muted));
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.selection-btn-pill:hover {
+  color: hsl(var(--foreground));
+  background: hsl(var(--card-hover));
+}
+
+.selection-btn-pill.active {
+  color: hsl(var(--background));
+  background: hsl(var(--accent-violet));
+  border-color: hsl(var(--accent-violet));
+}
+
+/* ============================================
+   RESULTS SECTIONS
+   ============================================ */
+
+.result-section {
+  width: 100%;
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.result-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(var(--radius) - 0.25rem);
+}
+
+.result-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: hsl(var(--background) / 0.5);
+  border-radius: var(--radius);
+  transition: background 0.2s ease;
+}
+
+.result-item:hover {
+  background: hsl(var(--card-hover) / 0.5);
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--border-hover));
+}
+
+/* ============================================
+   LOADING SPINNER
+   ============================================ */
+
+.spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid hsl(var(--foreground) / 0.2);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   AI AGENT PAGE STYLES
+   ============================================ */
+
+/* Large conversational input container */
+.ai-input-container {
+  padding: 2rem;
+  min-height: 120px;
+  border: 2px solid hsl(var(--border));
+  border-radius: 1rem;
+  background: hsl(var(--background));
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ai-input-container:focus-within {
+  border-color: hsl(var(--accent-cyan));
+  box-shadow: 0 0 0 4px hsl(var(--accent-cyan) / 0.1);
+}
+
+.ai-input-container textarea {
+  width: 100%;
+  min-height: 80px;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: hsl(var(--foreground));
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+}
+
+.ai-input-container textarea::placeholder {
+  color: hsl(var(--foreground-subtle));
+}
+
+/* Typing indicator with bouncing dots */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: hsl(var(--accent-cyan));
+  animation: typing-bounce 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing-bounce {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Parameter pills for extracted values */
+.param-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+
+.param-pill:hover {
+  border-color: hsl(var(--accent-cyan));
+  background: hsl(var(--card-hover));
+}
+
+.param-pill-label {
+  color: hsl(var(--foreground-muted));
+  font-weight: 400;
+}
+
+.param-pill-value {
+  color: hsl(var(--accent-cyan));
+  font-weight: 600;
+}
+
+/* Suggestion chips that cycle */
+.suggestion-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.875rem;
+  font-size: 0.8125rem;
+  color: hsl(var(--foreground-muted));
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.suggestion-chip:hover {
+  color: hsl(var(--foreground));
+  background: hsl(var(--card-hover));
+  border-color: hsl(var(--accent-cyan));
+}
+
+/* Processing step indicator */
+.processing-step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: hsl(var(--card) / 0.5);
+  border-radius: var(--radius);
+}
+
+.processing-step-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: hsl(var(--accent-cyan));
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 hsl(var(--accent-cyan) / 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px hsl(var(--accent-cyan) / 0);
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.text-balance {
+  text-wrap: balance;
+}

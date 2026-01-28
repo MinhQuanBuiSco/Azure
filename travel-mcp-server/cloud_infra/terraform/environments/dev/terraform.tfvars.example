@@ -1,0 +1,31 @@
+# Copy this file to terraform.tfvars and fill in the values
+# DO NOT commit terraform.tfvars to git!
+
+subscription_id     = "your-azure-subscription-id"
+project_name        = "travel-mcp"
+environment         = "dev"
+location            = "eastus"
+ai_foundry_location = "eastus2"
+
+# API Keys (required for full functionality)
+# Get these from:
+# - SerpAPI: https://serpapi.com/
+# - OpenWeather: https://openweathermap.org/api
+# - Google Places: https://console.cloud.google.com/
+# - ExchangeRate: https://www.exchangerate-api.com/
+serpapi_api_key       = ""
+openweather_api_key   = ""
+google_places_api_key = ""
+exchangerate_api_key  = ""
+
+# Container resources (optional, defaults are fine for dev)
+backend_cpu     = 0.5
+backend_memory  = "1Gi"
+frontend_cpu    = 0.25
+frontend_memory = "0.5Gi"
+
+tags = {
+  Project     = "travel-mcp-server"
+  Environment = "dev"
+  ManagedBy   = "terraform"
+}

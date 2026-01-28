@@ -1,0 +1,80 @@
+[project]
+name = "travel-mcp-server"
+version = "0.1.0"
+description = "A Travel Planner MCP Server for AI-powered trip planning"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Dr. Quan", email = "quan@example.com" }]
+keywords = ["mcp", "travel", "ai", "fastmcp", "langchain"]
+
+dependencies = [
+    # FastMCP
+    "fastmcp>=2.0.0",
+
+    # FastAPI for REST endpoints
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.34.0",
+
+    # HTTP clients
+    "httpx>=0.28.0",
+    "aiohttp>=3.11.0",
+
+    # Data validation
+    "pydantic>=2.10.0",
+    "pydantic-settings>=2.6.0",
+
+    # Redis caching
+    "redis>=5.2.0",
+    "hiredis>=3.0.0",
+
+    # Azure
+    "azure-identity>=1.19.0",
+    "openai>=1.0.0",
+
+    # Utilities
+    "python-dotenv>=1.0.0",
+    "tenacity>=9.0.0",
+    "structlog>=24.4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+    "pre-commit>=4.0.0",
+]
+
+[project.scripts]
+travel-mcp = "travel_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/travel_mcp"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "C4", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["travel_mcp"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

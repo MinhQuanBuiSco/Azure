@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/layout/header.tsx","./src/components/layout/layout.tsx","./src/lib/utils.ts","./src/pages/aiagent.tsx","./src/pages/home.tsx","./src/pages/results.tsx","./src/pages/tripplanner.tsx","./src/services/api.ts","./src/types/travel.ts"],"version":"5.7.3"}
