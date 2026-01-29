@@ -1,0 +1,35 @@
+# Development Dockerfile with hot-reloading
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install uv
+RUN pip install uv
+
+# Copy dependency files
+COPY pyproject.toml .
+
+# Create virtual environment and install dependencies
+RUN uv venv /app/.venv
+ENV PATH="/app/.venv/bin:$PATH"
+RUN uv pip install . && uv pip install watchfiles
+
+# Set environment variables
+ENV PYTHONPATH="/app/src"
+ENV PYTHONUNBUFFERED=1
+
+# Copy application code
+COPY src/ /app/src/
+
+# Expose port
+EXPOSE 8000
+
+# Run with auto-reload
+CMD ["uvicorn", "backend:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--reload-dir", "/app/src"]

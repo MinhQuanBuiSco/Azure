@@ -1,0 +1,11 @@
+# Azure Subscription
+subscription_id = "your-subscription-id"
+
+# Location - MUST be eastus2 or swedencentral for Claude models
+location = "eastus2"
+
+# Environment
+environment = "dev"
+
+# Project name (used for resource naming)
+project_name = "llm-router"
