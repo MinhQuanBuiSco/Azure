@@ -1,0 +1,10 @@
+# ── Required (must be globally unique) ──────────────
+key_vault_name = "kv-blog4-yourname"
+acr_name       = "acrblog4yourname"
+
+# ── Optional overrides ─────────────────────────────
+# resource_group_name    = "rg-blog4-auth"
+# location               = "eastus2"
+# container_apps_env_name = "cae-blog4"
+# backend_app_name       = "ca-blog4-backend"
+# static_web_app_name    = "swa-blog4-frontend"
