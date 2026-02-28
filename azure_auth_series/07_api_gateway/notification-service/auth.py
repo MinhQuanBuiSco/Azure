@@ -146,11 +146,17 @@ async def _validate_jwt(
 async def validate_token(request: Request) -> dict:
     """
     Dual-mode validation:
-    - TRUST_GATEWAY=true  → extract claims from APIM headers
-    - TRUST_GATEWAY=false → validate OBO JWT locally
+    - TRUST_GATEWAY=true + APIM headers present → extract claims from headers
+    - TRUST_GATEWAY=true + no APIM headers       → fall back to JWT (direct S2S call)
+    - TRUST_GATEWAY=false                         → validate OBO JWT locally
     """
     if TRUST_GATEWAY:
-        return _extract_claims_from_headers(request)
+        # Check if APIM headers are present (request came through gateway)
+        oid = request.headers.get("X-User-OID", "")
+        tenant_id = request.headers.get("X-Tenant-ID", "")
+        if oid and tenant_id:
+            return _extract_claims_from_headers(request)
+        # No APIM headers → direct S2S call, fall back to JWT validation
 
     auth_header = request.headers.get("Authorization", "")
     if not auth_header.startswith("Bearer "):
