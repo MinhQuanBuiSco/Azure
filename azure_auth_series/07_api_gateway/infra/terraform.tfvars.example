@@ -1,0 +1,20 @@
+# Copy to terraform.tfvars and fill in values
+# setup.sh generates this automatically
+
+project_name        = "blog07-apigw"
+resource_group_name = "rg-blog07-api-gateway"
+location            = "australiaeast"
+
+# Globally unique names
+acr_name        = "blog07acr"           # alphanumeric only
+apim_name       = "blog07-apim"         # globally unique
+publisher_email = "you@example.com"
+
+# Azure AD (populated by setup.sh)
+tenant_id              = "your-tenant-id"
+task_api_client_id     = "your-task-api-client-id"
+task_api_client_secret = "your-task-api-client-secret"
+notification_client_id = "your-notification-client-id"
+audit_client_id        = "your-audit-client-id"
+
+allowed_origins = "http://localhost:3000"

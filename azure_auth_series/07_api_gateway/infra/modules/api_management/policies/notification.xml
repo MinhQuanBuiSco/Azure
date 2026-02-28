@@ -1,0 +1,58 @@
+<policies>
+  <inbound>
+    <base />
+    <!-- CORS for frontend -->
+    <cors allow-credentials="true">
+      <allowed-origins>
+        <origin>http://localhost:3000</origin>
+      </allowed-origins>
+      <allowed-methods preflight-result-max-age="300">
+        <method>*</method>
+      </allowed-methods>
+      <allowed-headers>
+        <header>*</header>
+      </allowed-headers>
+    </cors>
+    <!-- Rate limit per user or IP -->
+    <rate-limit-by-key calls="100" renewal-period="60"
+      counter-key="@(context.Request.Headers.GetValueOrDefault("Authorization","").AsJwt()?.Subject ?? context.Request.IpAddress)" />
+    <!-- Validate OBO tokens (delegated, user context) -->
+    <validate-jwt header-name="Authorization" require-scheme="Bearer"
+      failed-validation-httpcode="401"
+      failed-validation-error-message="Unauthorized: Invalid or missing OBO token"
+      output-token-variable-name="jwt">
+      <openid-config url="https://login.microsoftonline.com/${tenant_id}/v2.0/.well-known/openid-configuration" />
+      <audiences>
+        <audience>${audience}</audience>
+      </audiences>
+      <issuers>
+        <issuer>https://sts.windows.net/${tenant_id}/</issuer>
+      </issuers>
+    </validate-jwt>
+    <!-- Extract validated claims → backend headers -->
+    <set-header name="X-User-OID" exists-action="override">
+      <value>@(((Jwt)context.Variables["jwt"]).Claims.GetValueOrDefault("oid", new [] {""}).FirstOrDefault())</value>
+    </set-header>
+    <set-header name="X-User-Name" exists-action="override">
+      <value>@(((Jwt)context.Variables["jwt"]).Claims.GetValueOrDefault("name", new [] {""}).FirstOrDefault())</value>
+    </set-header>
+    <set-header name="X-User-Email" exists-action="override">
+      <value>@(((Jwt)context.Variables["jwt"]).Claims.GetValueOrDefault("preferred_username", new [] {""}).FirstOrDefault())</value>
+    </set-header>
+    <set-header name="X-Tenant-ID" exists-action="override">
+      <value>@(((Jwt)context.Variables["jwt"]).Claims.GetValueOrDefault("tid", new [] {""}).FirstOrDefault())</value>
+    </set-header>
+    <set-header name="X-User-Roles" exists-action="override">
+      <value>@(String.Join(",", ((Jwt)context.Variables["jwt"]).Claims.GetValueOrDefault("roles", new string[0])))</value>
+    </set-header>
+  </inbound>
+  <backend>
+    <base />
+  </backend>
+  <outbound>
+    <base />
+  </outbound>
+  <on-error>
+    <base />
+  </on-error>
+</policies>
