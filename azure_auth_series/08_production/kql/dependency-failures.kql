@@ -1,0 +1,7 @@
+// Service-to-service dependency failures
+// Tracks failed calls between microservices (OBO, client credentials)
+
+dependencies
+| where success == false
+| summarize failureCount=count() by bin(timestamp, 5m), target, name, resultCode
+| order by timestamp desc

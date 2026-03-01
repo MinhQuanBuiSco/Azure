@@ -1,0 +1,8 @@
+// Top callers by user OID
+// Identifies the most active users across all endpoints
+
+requests
+| extend userOid = tostring(customDimensions["X-User-OID"])
+| where isnotempty(userOid)
+| summarize requestCount=count() by userOid, name
+| top 20 by requestCount desc

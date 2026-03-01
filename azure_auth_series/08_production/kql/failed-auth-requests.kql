@@ -1,0 +1,7 @@
+// Failed authentication requests (401/403) by endpoint
+// Use this to detect brute-force attempts or misconfigured clients
+
+requests
+| where resultCode in ("401", "403")
+| summarize count() by bin(timestamp, 5m), name, resultCode
+| order by timestamp desc

@@ -1,0 +1,7 @@
+// Slow requests — P95 latency exceeding 2 seconds
+// Identifies endpoints that may need optimization
+
+requests
+| summarize percentile(duration, 95) by bin(timestamp, 5m), name
+| where percentile_duration_95 > 2000
+| order by timestamp desc

@@ -1,0 +1,8 @@
+// Server error rate (5xx) by service
+// Tracks which microservice is producing the most errors
+
+requests
+| where toint(resultCode) >= 500
+| summarize errorCount=count(), totalCount=count() by bin(timestamp, 5m), cloud_RoleName
+| extend errorRate = round(100.0 * errorCount / totalCount, 2)
+| order by timestamp desc
